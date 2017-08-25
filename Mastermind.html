@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mastermind</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="inputs">
+    </div>
+    <form onsubmit="return check()" method="post">
+            guess : <input type="number" name="input">
+            <input type="submit" name="Submit">
+    </form>
+    <script>
+        var key = ("00000" + Math.floor(Math.random() * 100000)).slice(-5);
+        // console.log(key);
+        // array copy         	
+        // var i = a.length;
+        // while (i--) b[i] = a[i];
+        // console.log(key + " - " + input);
+        function check(){
+            var black = white = 0;
+            var inputS = document.querySelector('[name="input"]').value.trim();
+            var guess = ("00000" + parseInt(inputS)).slice(-5);
+            var input = Array.from(guess);
+            for(var i = 0; i<key.length;i++){
+                if(input[i] === key[i]){
+                    black++;
+                    input[i]=-1;
+                    continue;
+                }
+                var pos = input.indexOf(key[i]);
+                while(pos > -1){                    
+                    if(input[pos] !== key[pos]){
+                        white++;
+                        input[pos]=-1;
+                        break;
+                    }
+                    pos = input.indexOf(key[i], ++pos);
+                }
+               
+            }
+            document.querySelector('[name="input"]').value = "";
+            document.getElementById('inputs').innerHTML += guess + " - " + black + " - " + white ;
+            document.getElementById('inputs').innerHTML += "<br/>" ;
+            return false;
+        }
+    </script>
+</body>
+
+</html>
