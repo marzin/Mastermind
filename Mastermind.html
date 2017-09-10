@@ -25,10 +25,20 @@
         // while (i--) b[i] = a[i];
         // console.log(key + " - " + input);
         function check(){
-            var black = white = 0;
+            
             var inputS = document.querySelector('[name="input"]').value.trim();
             var guess = ("00000" + parseInt(inputS)).slice(-5);
             var input = Array.from(guess);
+            
+            var result = comp(key, input);
+            document.querySelector('[name="input"]').value = "";
+            document.getElementById('inputs').innerHTML += guess + " - " + result ;
+            document.getElementById('inputs').innerHTML += "<br/>" ;
+            return false;
+        }
+
+        function comp(key, input){
+            var black = white = 0;
             for(var i = 0; i<key.length;i++){
                 if(input[i] === key[i]){
                     black++;
@@ -44,13 +54,8 @@
                     }
                     pos = input.indexOf(key[i], ++pos);
                 }
-               
             }
-            
-            document.querySelector('[name="input"]').value = "";
-            document.getElementById('inputs').innerHTML += guess + " - " + black + " - " + white ;
-            document.getElementById('inputs').innerHTML += "<br/>" ;
-            return false;
+            return black + " - " + white;
         }
     </script>
 </body>
