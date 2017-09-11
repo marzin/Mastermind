@@ -24,6 +24,49 @@
         // var i = a.length;
         // while (i--) b[i] = a[i];
         // console.log(key + " - " + input);
+        var guessArray = [];
+        
+        function initSolver(){
+            for (var i = 0; i < 1000000 ; i++) {
+                var e = ("00000" + parseInt(i)).slice(-5);
+                guessArray.push(Array.from(e));    
+            }
+            console.log('init done');
+            guessCount();
+        }
+
+
+        function guessCount(){
+            console.log("Guess Count : " + guessArray.length);
+        }
+
+        function nextGuess(){
+            var i = Math.floor(Math.random()*guessArray.length);
+            var guess = guessArray[i];
+            console.log("Guess : " + guess);
+            return guess;
+        }
+
+        function dropGuess(guess, result){
+            for (var i = guessArray.length - 1 ; i > 0 ; i-- ) {
+                var e = guessArray[i];
+                if(comp(guess, e) !== result){
+                    guessArray.splice(i, 1);
+                }
+            }
+            guessCount();
+        }
+        
+        function solver(){
+            initSolver();
+
+            for (var i = 0; i < 10; i++) {
+                var guess = nextGuess();
+                var result = comp(key, guess);
+                dropGuess(guess, result);
+            }
+        }
+
         function check(){
             
             var inputS = document.querySelector('[name="input"]').value.trim();
@@ -38,25 +81,34 @@
         }
 
         function comp(key, input){
+
             var black = white = 0;
+            var inputCopy = [];
+            var i = input.length;
+            while (i--) inputCopy[i] = input[i];
+
             for(var i = 0; i<key.length;i++){
-                if(input[i] === key[i]){
+                if(inputCopy[i] === key[i]){
                     black++;
-                    input[i]=-1;
+                    inputCopy[i]=-1;
                     continue;
                 }
-                var pos = input.indexOf(key[i]);
+                var pos = inputCopy.indexOf(key[i]);
                 while(pos > -1){                    
-                    if(input[pos] !== key[pos]){
+                    if(inputCopy[pos] !== key[pos]){
                         white++;
-                        input[pos]=-1;
+                        inputCopy[pos]=-1;
                         break;
                     }
-                    pos = input.indexOf(key[i], ++pos);
+                    pos = inputCopy.indexOf(key[i], ++pos);
                 }
             }
+            console.log("result : " + black + " - " + white);
             return black + " - " + white;
         }
+
+        solver();
+
     </script>
 </body>
 
