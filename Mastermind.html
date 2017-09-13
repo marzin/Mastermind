@@ -19,7 +19,7 @@
     </form>
     <script>
         var key = ("00000" + Math.floor(Math.random() * 100000)).slice(-5);
-        // console.log(key);
+        console.log(key);
         // array copy         	
         // var i = a.length;
         // while (i--) b[i] = a[i];
@@ -27,8 +27,10 @@
         var guessArray = [];
         
         function initSolver(){
-            for (var i = 0; i < 1000000 ; i++) {
-                var e = ("00000" + parseInt(i)).slice(-5);
+            //for (var i = 0; i < 1000000 ; i++) {
+            for (var i = 0; i < Math.pow(10, key.length) ; i++) {
+                //var e = ("00000" + parseInt(i)).slice(-5);
+                var e = ("00000" + parseInt(i)).slice(-key.length);
                 guessArray.push(Array.from(e));    
             }
             console.log('init done');
@@ -48,7 +50,8 @@
         }
 
         function dropGuess(guess, result){
-            for (var i = guessArray.length - 1 ; i > 0 ; i-- ) {
+            var i = guessArray.length;
+            while(i-- ) {
                 var e = guessArray[i];
                 if(comp(guess, e) !== result){
                     guessArray.splice(i, 1);
@@ -60,9 +63,13 @@
         function solver(){
             initSolver();
 
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 15; i++) {
                 var guess = nextGuess();
                 var result = comp(key, guess);
+                if(result==="5 - 0"){
+                    console.log(i + " step");
+                    break;
+                }
                 dropGuess(guess, result);
             }
         }
@@ -103,7 +110,7 @@
                     pos = inputCopy.indexOf(key[i], ++pos);
                 }
             }
-            console.log("result : " + black + " - " + white);
+            //console.log("result : " + black + " - " + white);
             return black + " - " + white;
         }
 
