@@ -20,16 +20,10 @@
     <script>
         var key = ("00000" + Math.floor(Math.random() * 100000)).slice(-5);
         console.log(key);
-        // array copy         	
-        // var i = a.length;
-        // while (i--) b[i] = a[i];
-        // console.log(key + " - " + input);
         var guessArray = [];
         
         function initSolver(){
-            //for (var i = 0; i < 1000000 ; i++) {
             for (var i = 0; i < Math.pow(10, key.length) ; i++) {
-                //var e = ("00000" + parseInt(i)).slice(-5);
                 var e = ("00000" + parseInt(i)).slice(-key.length);
                 guessArray.push(Array.from(e));    
             }
